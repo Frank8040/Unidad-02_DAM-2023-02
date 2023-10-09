@@ -78,18 +78,18 @@ class _LoginFormState extends State<LoginForm> {
       final userData = await dbHelper.getLoginUser(uid, passwd);
 
       if (userData != null) {
-        await setSP(userData);
+        await setSP(userData as User);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (_) => const DashboardPage()),
           (Route<dynamic> route) => false,
         );
       } else {
-        alertDialog("Error: User Not Found");
+        alertDialog("Usuario no encontrado");
       }
     } catch (error) {
       print(error);
-      alertDialog("Error: Login Fail");
+      alertDialog("Error al iniciar sesión");
     }
   }
 
@@ -167,6 +167,7 @@ class _LoginFormState extends State<LoginForm> {
               Container(
                 margin: const EdgeInsets.all(30.0),
                 width: double.infinity,
+                height: 40,
                 child: ElevatedButton(
                   onPressed: login,
                   style: ElevatedButton.styleFrom(
@@ -177,7 +178,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   child: const Text(
                     'Ingresar',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
                 ),
               ),

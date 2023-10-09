@@ -1,74 +1,87 @@
-import 'package:frontend_flutter/models/User.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'dart:io' as io;
+
+import '../../models/Users.dart';
 
 class DbHelper {
-  static Database? _db;
+  final String _tableName = "user";
 
-  final String _dbName = 'test.db';
-  final String _tableUser = 'user';
-  final int version = 1;
-
-  final String _userId = 'id';
   final String _userCorreo = 'correo';
   final String _userPassword = 'password';
 
-  Future<Database?> get db async {
-    if (_db != null) {
-      return _db;
-    }
-    _db = await initDb();
-    return _db;
+  Future<Database> getDataBase() async {
+    return openDatabase(
+      join(await getDatabasesPath(), "usersDatabase.db"),
+      onCreate: (db, version) async {
+        await db.execute(
+          "CREATE TABLE $_tableName (id TEXT PRIMARY KEY, nombres TEXT, apellidos TEXT, dni TEXT, correo TEXT, password TEXT)",
+        );
+      },
+      version: 1,
+    );
   }
 
-  initDb() async {
-    io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, _dbName);
-    var db = await openDatabase(path, version: version, onCreate: _onCreate);
-    return db;
-  }
-
-  _onCreate(Database db, int intVersion) async {
-    await db.execute("CREATE TABLE $_tableUser ("
-        " $_userId TEXT, "
-        " $_userCorreo TEXT, "
-        " $_userPassword TEXT, "
-        " PRIMARY KEY ($_userId)"
-        ")");
-  }
-
-  Future<int?> saveData(User user) async {
-    var dbClient = await db;
-    var res = await dbClient?.insert(_tableUser, user.toMap());
-    return res;
-  }
-
-  Future<User?> getLoginUser(String userId, String password) async {
-    var dbClient = await db;
-    var res = await dbClient?.rawQuery("SELECT * FROM $_tableUser WHERE "
-        "$_userId = '$userId' AND "
+  Future<User?> getLoginUser(String correo, String password) async {
+    var dbClient = await getDataBase();
+    var res = await dbClient.rawQuery("SELECT * FROM $_tableName WHERE "
+        "$_userCorreo = '$correo' AND "
         "$_userPassword = '$password'");
 
-    if (res != null && res.isNotEmpty) {
+    if (res.isNotEmpty) {
       return User.fromMap(res.first);
     }
 
     return null;
   }
 
-  Future<int?> updateUser(User user) async {
-    var dbClient = await db;
-    var res = await dbClient?.update(_tableUser, user.toMap(),
-        where: '$_userId = ?', whereArgs: [user.dni]);
-    return res;
+  Future<User> getUser(String userId) async {
+    Database db = await getDataBase();
+    List<Map<String, dynamic>> user =
+        await db.rawQuery("SELECT * FROM $_tableName WHERE id = $userId");
+    if (user.length == 1) {
+      return User(
+          id: user[0]["id"],
+          nombres: user[0]["nombres"],
+          apellidos: user[0]["apellidos"],
+          dni: user[0]["dni"],
+          correo: user[0]["correo"],
+          password: user[0]["password"]);
+    } else {
+      return const User();
+    }
   }
 
-  Future<int?> deleteUser(String id) async {
-    var dbClient = await db;
-    var res = await dbClient
-        ?.delete(_tableUser, where: '$_userId = ?', whereArgs: [id]);
-    return res;
+  Future<List<User>> getAllUsers() async {
+    Database db = await getDataBase();
+    List<Map<String, dynamic>> usersMap = await db.query(_tableName);
+    return List.generate(usersMap.length, (index) {
+      return User(
+          id: usersMap[index]["id"],
+          nombres: usersMap[index]["nombres"],
+          apellidos: usersMap[index]["apellidos"],
+          dni: usersMap[index]["dni"],
+          correo: usersMap[index]["correo"],
+          password: usersMap[index]["password"]);
+    });
+  }
+
+  Future<int> insertUser(User user) async {
+    int userId = 0;
+    Database db = await getDataBase();
+    await db.insert(_tableName, user.toMap()).then((value) {
+      userId = value;
+    });
+    return userId;
+  }
+
+  Future<void> updateUser(String userId, String name, String imageUrl) async {
+    Database db = await getDataBase();
+    db.rawUpdate(
+        "UPDATE $_tableName SET name = '$name', imageUrl = '$imageUrl' WHERE id = '$userId'");
+  }
+
+  Future<void> deleteUser(String userId) async {
+    Database db = await getDataBase();
+    await db.rawDelete("DELETE FROM $_tableName WHERE id = '$userId'");
   }
 }

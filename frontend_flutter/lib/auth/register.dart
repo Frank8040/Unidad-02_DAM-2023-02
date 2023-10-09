@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../components/genLoginSignUpHeader.dart';
 import '../components/genTextFormField.dart';
 import '../components/msgDialog.dart';
-import '../models/User.dart';
+import '../models/Users.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -94,7 +94,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Future<void> _registerWithSqlCipher(User user) async {
     try {
-      await dbHelper.saveData(user);
+      await dbHelper.insertUser(user);
       alertDialog("Guardado con éxito");
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => const LoginForm()));
@@ -153,9 +153,6 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login with Signup'),
-      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -164,7 +161,7 @@ class _SignUpFormState extends State<SignUpForm> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                genLoginSignUpHeader('Signup'),
+                genLoginSignUpHeader('Registrarse'),
                 getTextFormField(
                     controller: _conDni,
                     icon: Icons.person_2_outlined,
@@ -204,6 +201,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 Container(
                   margin: const EdgeInsets.all(30.0),
                   width: double.infinity,
+                  height: 40,
                   child: ElevatedButton(
                     onPressed: register,
                     style: ElevatedButton.styleFrom(
@@ -213,8 +211,8 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ),
                     child: const Text(
-                      'Registrarse',
-                      style: TextStyle(color: Colors.white),
+                      'Registrar',
+                      style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
                   ),
                 ),
@@ -238,6 +236,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     )
                   ],
                 ),
+                const SizedBox(height: 50.0),
               ],
             ),
           ),
