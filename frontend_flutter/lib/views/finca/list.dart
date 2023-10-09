@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_flutter/views/producci%C3%B3n/list.dart';
 import 'package:frontend_flutter/views/reproducci%C3%B3n/list.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class FincaTable extends StatelessWidget {
   const FincaTable({Key? key}) : super(key: key);

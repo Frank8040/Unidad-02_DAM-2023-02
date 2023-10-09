@@ -1,44 +1,115 @@
-// ignore_for_file: dead_code
-
 import 'dart:convert';
+import 'dart:io' show InternetAddress;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:frontend_flutter/auth/register.dart';
+import 'package:frontend_flutter/database/local/DbHelper.dart';
 import 'package:frontend_flutter/views/dashboard.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+import '../components/genLoginSignUpHeader.dart';
+import '../components/genTextFormField.dart';
+import '../components/msgDialog.dart';
+import '../models/User.dart';
+
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginFormState createState() => _LoginFormState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool obscurePassword = true;
+class _LoginFormState extends State<LoginForm> {
+  final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
 
-  final TextEditingController _correoController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _conEmail = TextEditingController();
+  final _conPassword = TextEditingController();
+  var dbHelper = DbHelper();
 
-  // Función o método Login
-  Future<void> _handleLogin() async {
-    final correo = _correoController.text;
-    final password = _passwordController.text;
+  @override
+  void initState() {
+    super.initState();
+    dbHelper = DbHelper();
+  }
 
-    if (correo.isEmpty || password.isEmpty) {
-      setState(() {});
+  // Verifica la conectividad en la plataforma web
+  Future<bool> checkWebConnectivity() async {
+    try {
+      final response = await http
+          .get(Uri.parse('http://localhost:8080/doc/swagger-ui/index.html'));
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Verifica la conectividad en otras plataformas (iOS, Android)
+  Future<bool> checkMobileConnectivity() async {
+    final result = await InternetAddress.lookup('google.com');
+    return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+  }
+
+  Future<void> login() async {
+    String uid = _conEmail.text;
+    String passwd = _conPassword.text;
+
+    if (uid.isEmpty) {
+      alertDialog("Please Enter User ID");
+      return;
+    } else if (passwd.isEmpty) {
+      alertDialog("Please Enter Password");
       return;
     }
 
+    bool isConnected =
+        kIsWeb ? await checkWebConnectivity() : await checkMobileConnectivity();
+
+    if (isConnected) {
+      await _loginWithSpringBoot(uid, passwd);
+    } else {
+      await _loginWithSqlCipher(uid, passwd);
+    }
+  }
+
+  Future<void> _loginWithSqlCipher(String uid, String passwd) async {
+    try {
+      final userData = await dbHelper.getLoginUser(uid, passwd);
+
+      if (userData != null) {
+        await setSP(userData);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const DashboardPage()),
+          (Route<dynamic> route) => false,
+        );
+      } else {
+        alertDialog("Error: User Not Found");
+      }
+    } catch (error) {
+      print(error);
+      alertDialog("Error: Login Fail");
+    }
+  }
+
+  Future<void> setSP(User user) async {
+    final SharedPreferences sp = await _pref;
+
+    sp.setString("correo", user.correo);
+    sp.setString("password", user.password);
+  }
+
+  Future<void> _loginWithSpringBoot(String uid, String passwd) async {
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:8080/asis/login'),
+        Uri.parse('http://172.168.1.110:8080/asis/login'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'correo': correo,
-          'password': password,
+          'correo': uid,
+          'password': passwd,
         }),
       );
 
@@ -75,66 +146,64 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /* appBar: AppBar(
-      title: const Text('Senior Login'),
-    ),*/
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _correoController,
-              decoration: const InputDecoration(
-                labelText: 'Usuario',
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              genLoginSignUpHeader('Iniciar Sesión'),
+              getTextFormField(
+                  controller: _conEmail,
+                  icon: Icons.person,
+                  hintName: 'User ID'),
+              const SizedBox(height: 10.0),
+              getTextFormField(
+                controller: _conPassword,
+                icon: Icons.lock,
+                hintName: 'Contraseña',
+                isObscureText: true,
               ),
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Contraseña',
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors
-                        .click, // Cambia el cursor a un puntero
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          obscurePassword = !obscurePassword;
-                        });
-                      },
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(10),
-                        onTap: () {
-                          setState(() {
-                            obscurePassword = !obscurePassword;
-                          });
-                        },
-                        onHover: (isHovering) {
-                          // Define aquí lo que deseas hacer cuando el mouse se desplaza sobre el icono
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(
-                              8.0), // Ajusta el tamaño del "hover"
-                          child: obscurePassword
-                              ? const Icon(Icons.visibility)
-                              : const Icon(Icons.visibility_off),
-                        ),
-                      ),
+              Container(
+                margin: const EdgeInsets.all(30.0),
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
+                  ),
+                  child: const Text(
+                    'Ingresar',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              obscureText: obscurePassword,
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _handleLogin,
-              child: const Text('Iniciar Sesión'),
-            ),
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('¿No tiene cuenta? '),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SignUpForm(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue, // Color del texto
+                    ),
+                    child: const Text('Inscribirse'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

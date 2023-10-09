@@ -37,7 +37,7 @@ class DashboardPage extends StatelessWidget {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) =>
-                const LoginPage(), // Reemplaza con tu página de inicio de sesión
+                const LoginForm(), // Reemplaza con tu página de inicio de sesión
           ),
         );
       } else {
