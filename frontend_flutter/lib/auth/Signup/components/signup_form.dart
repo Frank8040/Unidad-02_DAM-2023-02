@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_flutter/components/raisedGradientButton.dart';
 
 import '../../already_have_an_account.dart';
 import '../../../constants.dart';
@@ -11,59 +12,82 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
-            onSaved: (email) {},
-            decoration: const InputDecoration(
-              hintText: "Your email",
-              prefixIcon: Padding(
-                padding: EdgeInsets.all(defaultPadding),
-                child: Icon(Icons.person),
-              ),
-            ),
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(15),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: TextFormField(
-              textInputAction: TextInputAction.done,
-              obscureText: true,
-              cursorColor: kPrimaryColor,
-              decoration: const InputDecoration(
-                hintText: "Your password",
-                prefixIcon: Padding(
-                  padding: EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.lock),
+          padding: const EdgeInsets.all(15),
+          child: Form(
+            child: Column(
+              children: [
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  cursorColor: kPrimaryColor,
+                  onSaved: (email) {},
+                  style: const TextStyle(fontSize: 14.0),
+                  decoration: const InputDecoration(
+                    hintText: "Correo Electronico",
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                      child: Icon(Icons.person),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: defaultPadding / 2),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text("Sign Up".toUpperCase()),
-          ),
-          const SizedBox(height: defaultPadding),
-          AlreadyHaveAnAccount(
-            login: false,
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const LoginScreen();
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+                  child: TextFormField(
+                    textInputAction: TextInputAction.done,
+                    obscureText: true,
+                    cursorColor: kPrimaryColor,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: const InputDecoration(
+                      hintText: "Contraseña",
+                      prefixIcon: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultPadding),
+                        child: Icon(Icons.lock),
+                      ),
+                    ),
+                  ),
+                ),
+                RaisedGradientButton(
+                  gradient: const LinearGradient(
+                    colors: <Color>[
+                      Color.fromARGB(255, 128, 19, 28),
+                      Color.fromARGB(255, 25, 13, 34)
+                    ],
+                  ),
+                  onPressed: () {
+                    print('button clicked');
                   },
+                  child: const Text(
+                    'Iniciar Sesión',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
                 ),
-              );
-            },
+              ],
+            ),
           ),
-          const SizedBox(height: defaultPadding),
-        ],
-      ),
+        ),
+        const SizedBox(height: defaultPadding * 2),
+        AlreadyHaveAnAccount(
+          press: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const LoginScreen();
+                },
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

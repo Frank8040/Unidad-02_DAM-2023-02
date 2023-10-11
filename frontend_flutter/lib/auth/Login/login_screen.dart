@@ -11,7 +11,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Background(
-      child: SingleChildScrollView(
         child: Responsive(
           mobile: MobileLoginScreen(),
           desktop: Row(
@@ -33,7 +32,7 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+
     );
   }
 }
@@ -53,7 +52,7 @@ class MobileLoginScreen extends StatelessWidget {
           children: [
             Spacer(),
             Expanded(
-              flex: 8,
+              flex: 12,
               child: LoginForm(),
             ),
             Spacer(),

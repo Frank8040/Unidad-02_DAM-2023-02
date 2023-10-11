@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
           inputDecorationTheme: const InputDecorationTheme(
             filled: true,
             fillColor: kPrimaryLightColor,
-            iconColor: kPrimaryColor,
-            prefixIconColor: kPrimaryColor,
+            iconColor: kPrimaryRed,
+            prefixIconColor: kPrimaryRed,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(15)),
               borderSide: BorderSide.none,
