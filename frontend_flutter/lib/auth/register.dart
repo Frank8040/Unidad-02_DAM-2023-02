@@ -107,7 +107,7 @@ class _SignUpFormState extends State<SignUpForm> {
   Future<void> _registerWithSpringBoot(User user) async {
     try {
       final response = await http.post(
-        Uri.parse('http://172.168.1.110:8080/asis/register'),
+        Uri.parse('http://10.80.82.125:8080/asis/register'),
         headers: {
           'Content-Type': 'application/json',
         },

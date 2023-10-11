@@ -56,10 +56,10 @@ class _LoginFormState extends State<LoginForm> {
     String passwd = _conPassword.text;
 
     if (uid.isEmpty) {
-      alertDialog("Please Enter User ID");
+      alertDialog("Ingrese su correo");
       return;
     } else if (passwd.isEmpty) {
-      alertDialog("Please Enter Password");
+      alertDialog("Ingrese su contraseña");
       return;
     }
 
@@ -103,7 +103,7 @@ class _LoginFormState extends State<LoginForm> {
   Future<void> _loginWithSpringBoot(String uid, String passwd) async {
     try {
       final response = await http.post(
-        Uri.parse('http://172.168.1.110:8080/asis/login'),
+        Uri.parse('http://10.80.82.125:8080/asis/login'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -156,7 +156,7 @@ class _LoginFormState extends State<LoginForm> {
               getTextFormField(
                   controller: _conEmail,
                   icon: Icons.person,
-                  hintName: 'User ID'),
+                  hintName: 'Correo Electronico'),
               const SizedBox(height: 10.0),
               getTextFormField(
                 controller: _conPassword,
@@ -164,28 +164,38 @@ class _LoginFormState extends State<LoginForm> {
                 hintName: 'Contraseña',
                 isObscureText: true,
               ),
-              Container(
-                margin: const EdgeInsets.all(30.0),
-                width: double.infinity,
-                height: 40,
+              Padding(
+                padding: const EdgeInsets.all(25.0),
                 child: ElevatedButton(
                   onPressed: login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
                   ),
-                  child: const Text(
-                    'Ingresar',
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  child: const SizedBox(
+                    width: double
+                        .infinity, // Para abarcar todo el ancho horizontalmente
+                    height: 40,
+                    child: Center(
+                      child: Text(
+                        'Ingresar',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                    ),
                   ),
                 ),
               ),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('¿No tiene cuenta? '),
+                  Container(
+                    margin: const EdgeInsets.all(16.0),
+                    child: const Text(
+                      '¿No tienes cuenta?',
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -197,9 +207,14 @@ class _LoginFormState extends State<LoginForm> {
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.blue, // Color del texto
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
-                    child: const Text('Inscribirse'),
+                    child: const Text(
+                      'Registrate aquí',
+                      style: TextStyle(fontSize: 14),),
                   ),
                 ],
               ),

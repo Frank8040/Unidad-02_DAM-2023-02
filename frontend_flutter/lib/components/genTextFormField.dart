@@ -24,7 +24,7 @@ class getTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextFormField(
         controller: controller,
         obscureText: isObscureText,
@@ -41,16 +41,19 @@ class getTextFormField extends StatelessWidget {
         },
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
             borderSide: BorderSide(color: Colors.transparent),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
             borderSide: BorderSide(color: Colors.blue),
           ),
           prefixIcon: Icon(icon),
           hintText: hintName,
           labelText: hintName,
+          labelStyle: const TextStyle(
+            fontSize: 14,
+          ),
           fillColor: Colors.grey[200],
           filled: true,
         ),

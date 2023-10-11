@@ -21,7 +21,7 @@ class DashboardPage extends StatelessWidget {
     try {
       // Realiza la solicitud HTTP para cerrar la sesión en el servidor
       final response = await http.post(
-        Uri.parse('http://localhost:8080/asis/logout'),
+        Uri.parse('http://10.80.82.125:8080/asis/logout'),
         headers: {
           // Si es necesario, incluye el token de autenticación en el encabezado
           'Authorization': 'Bearer $storedToken',

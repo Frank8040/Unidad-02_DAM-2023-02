@@ -25,11 +25,11 @@ class genLoginSignUpHeader extends StatelessWidget {
         ),
         const SizedBox(height: 10.0),
         const Text(
-          'Ingresa tus Datos',
+          'Ingresa tus credenciales',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black38,
-              fontSize: 25.0),
+              fontSize: 18.0),
         ),
         const SizedBox(height: 10.0),
       ],
