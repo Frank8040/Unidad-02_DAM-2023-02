@@ -12,6 +12,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Background(
       child: SingleChildScrollView(
+        reverse: true,
         child: SafeArea(
           child: Responsive(
             desktop: Row(
