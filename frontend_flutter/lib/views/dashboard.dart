@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_flutter/auth/login.dart';
+import 'package:frontend_flutter/auth/Welcome/welcome_screen.dart';
 import 'package:frontend_flutter/views/finca/list.dart';
 import 'package:frontend_flutter/views/producci%C3%B3n/list.dart';
 import 'package:frontend_flutter/views/reproducci%C3%B3n/list.dart';
@@ -21,7 +21,7 @@ class DashboardPage extends StatelessWidget {
     try {
       // Realiza la solicitud HTTP para cerrar la sesión en el servidor
       final response = await http.post(
-        Uri.parse('http://10.80.82.125:8080/asis/logout'),
+        Uri.parse('http://172.168.1.110:8080/asis/logout'),
         headers: {
           // Si es necesario, incluye el token de autenticación en el encabezado
           'Authorization': 'Bearer $storedToken',
@@ -37,7 +37,7 @@ class DashboardPage extends StatelessWidget {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) =>
-                const LoginForm(), // Reemplaza con tu página de inicio de sesión
+                const WelcomeScreen(), // Reemplaza con tu página de inicio de sesión
           ),
         );
       } else {
@@ -87,8 +87,8 @@ class DashboardPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           _dashboardButton('REGISTRO DE LECHE', Icons.home, () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ProduccionTable()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProduccionTable()));
           }),
           _dashboardButton('CAJA', Icons.wallet, () {
             Navigator.push(context,
