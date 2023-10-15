@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_flutter/components/Button.dart';
-import 'package:frontend_flutter/components/Input.dart';
+import 'package:frontend_flutter/components/gradientButton.dart';
+import 'package:frontend_flutter/components/formInputField.dart';
 import 'package:frontend_flutter/database/remote/UserDB.dart';
 
-import '../../already_have_an_account.dart';
+import '../../../components/already_have_an_account.dart';
 import '../../../constants.dart';
 import '../../Signup/signup_screen.dart';
 
@@ -49,6 +49,11 @@ class _LoginFormState extends State<LoginForm> {
           child: Form(
             child: Column(
               children: [
+                const Text(
+                  "ingrese sus credenciales",
+                  style: TextStyle(color: kPrimaryLightColor),
+                ),
+                const SizedBox(height: defaultPadding),
                 FormInputField(
                   controller: _conEmail,
                   hintText: "Correo Electrónico",
@@ -62,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
                   isObscureText: true,
                 ),
                 const SizedBox(height: 15.0),
-                CustomGradientButton(
+                GradientButton(
                   gradient: const LinearGradient(
                     colors: <Color>[
                       Color.fromARGB(255, 128, 19, 28),
@@ -81,7 +86,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
         ),
-        const SizedBox(height: defaultPadding * 2),
+        const SizedBox(height: defaultPadding),
         AlreadyHaveAnAccount(
           login: true,
           press: () {

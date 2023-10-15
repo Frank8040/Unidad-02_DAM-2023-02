@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_flutter/auth/Welcome/welcome_screen.dart';
+import 'package:frontend_flutter/views/inicio/welcome_screen.dart';
 import 'package:frontend_flutter/views/finca/list.dart';
 import 'package:frontend_flutter/views/producci%C3%B3n/list.dart';
 import 'package:frontend_flutter/views/reproducci%C3%B3n/list.dart';

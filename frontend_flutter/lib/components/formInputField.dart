@@ -46,6 +46,7 @@ class _FormInputFieldState extends State<FormInputField> {
             ? IconButton(
                 icon: Icon(
                   obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: kPrimaryRed,
                 ),
                 onPressed: () {
                   setState(() {

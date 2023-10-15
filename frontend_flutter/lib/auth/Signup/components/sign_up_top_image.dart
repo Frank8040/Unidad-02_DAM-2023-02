@@ -12,20 +12,27 @@ class SignUpScreenTopImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          "Registrarse".toUpperCase(),
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
-        ),
         const SizedBox(height: defaultPadding),
         Row(
           children: [
-            const Spacer(),
             Expanded(
               flex: 8,
-              child: SvgPicture.asset("assets/icons/signup.svg"),
+              child: SvgPicture.asset(
+                "assets/icons/title_project.svg",
+                width: 200,
+              ),
             ),
-            const Spacer(),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+              flex: 8,
+              child: SvgPicture.asset(
+                "assets/icons/logo_project.svg",
+                width: 200,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: defaultPadding),

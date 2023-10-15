@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend_flutter/components/Button.dart';
-import 'package:frontend_flutter/components/Input.dart';
+import 'package:frontend_flutter/components/gradientButton.dart';
+import 'package:frontend_flutter/components/formInputField.dart';
+import 'package:frontend_flutter/constants.dart';
 import 'package:frontend_flutter/models/Users.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../already_have_an_account.dart';
-import '../../../constants.dart';
+import '../../../components/already_have_an_account.dart';
 import '../../Login/login_screen.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -111,6 +111,11 @@ class _SignUpFormState extends State<SignUpForm> {
             key: _formKey,
             child: Column(
               children: [
+                const Text(
+                  "ingrese sus datos",
+                  style: TextStyle(color: kPrimaryLightColor),
+                ),
+                const SizedBox(height: defaultPadding),
                 FormInputField(
                   controller: _conNombres,
                   hintText: "Nombres",
@@ -149,7 +154,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   isObscureText: true,
                 ),
                 const SizedBox(height: 15.0),
-                CustomGradientButton(
+                GradientButton(
                   gradient: const LinearGradient(
                     colors: <Color>[
                       Color.fromARGB(255, 128, 19, 28),
@@ -168,7 +173,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
           ),
         ),
-        const SizedBox(height: defaultPadding * 2),
+        const SizedBox(height: defaultPadding),
         AlreadyHaveAnAccount(
           login: false,
           press: () {

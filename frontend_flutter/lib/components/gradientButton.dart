@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class RaisedGradientButton extends StatelessWidget {
+class GradientButton extends StatelessWidget {
   final Widget child;
   final Gradient? gradient;
   final double width;
   final double height;
   final VoidCallback onPressed;
 
-  const RaisedGradientButton({
-    Key? key,
+  const GradientButton({
+    super.key,
     required this.child,
     this.gradient,
     this.width = double.infinity,
     this.height = 50.0,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

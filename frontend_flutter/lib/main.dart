@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_flutter/auth/Welcome/welcome_screen.dart';
+import 'package:frontend_flutter/views/inicio/welcome_screen.dart';
 import 'package:frontend_flutter/constants.dart';
 import 'package:toast/toast.dart';
 
