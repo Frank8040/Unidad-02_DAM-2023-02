@@ -4,7 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +24,10 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import pe.edu.upeu.asistenciaupeubackend.configuration.UserAuthenticationProvider;
+import pe.edu.upeu.asistenciaupeubackend.dtos.CredencialDto;
 import pe.edu.upeu.asistenciaupeubackend.dtos.CredencialesDto;
 import pe.edu.upeu.asistenciaupeubackend.dtos.UsuarioDto;
 import pe.edu.upeu.asistenciaupeubackend.models.Usuario;
@@ -35,8 +43,18 @@ public class AuthController {
 
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Usuario> getActividadById(@PathVariable Long id) {
-        Usuario actividad = userService.getUsuarioById(id);
-        return ResponseEntity.ok(actividad);
+        Usuario userById = userService.getUsuarioById(id);
+        return ResponseEntity.ok(userById);
+    }
+
+    @GetMapping("/buscarPorCorreo/{correo}")
+    public ResponseEntity<String> getContrasenaByCorreo(@PathVariable String correo) {
+        String contrasena = userService.getContrasenaByCorreo(correo);
+        if (contrasena != null) {
+            return ResponseEntity.ok(contrasena);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/list")
@@ -52,6 +70,25 @@ public class AuthController {
         userDto.setToken(userAuthenticationProvider.createToken(userDto));
         request.getSession().setAttribute("USER_SESSION", userDto.getCorreo());
         return ResponseEntity.ok(userDto);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PostMapping("/loginByCorreo")
+    public ResponseEntity<UsuarioDto> loginByCorreo(@RequestBody @Valid CredencialDto correo,
+            HttpServletRequest request) {
+        try {
+            UsuarioDto userDto = userService.loginByCorreo(correo);
+            if (userDto != null) {
+                userDto.setToken(userAuthenticationProvider.createToken(userDto));
+                request.getSession().setAttribute("USER_SESSION", userDto.getCorreo());
+                return ResponseEntity.ok(userDto);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PostMapping("/register")

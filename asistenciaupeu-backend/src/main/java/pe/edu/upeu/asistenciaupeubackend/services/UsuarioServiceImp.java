@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import pe.edu.upeu.asistenciaupeubackend.dtos.CredencialDto;
 import pe.edu.upeu.asistenciaupeubackend.dtos.CredencialesDto;
 import pe.edu.upeu.asistenciaupeubackend.dtos.UsuarioDto;
 import pe.edu.upeu.asistenciaupeubackend.exceptions.AppException;
@@ -50,6 +51,13 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
+    public String getContrasenaByCorreo(String correo) {
+        Usuario userByCorreo = userRepository.findByCorreo(correo)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con correo: " + correo));
+        return userByCorreo.getPassword();
+    }
+
+    @Override
     public Usuario getUsuarioById(Long id) {
         Usuario findUsuario = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not exist with id :" + id));
@@ -66,6 +74,13 @@ public class UsuarioServiceImp implements UsuarioService {
         }
 
         throw new AppException("Contraseña inválida", HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public UsuarioDto loginByCorreo(CredencialDto correo) {
+        Usuario user = userRepository.findByCorreo(correo.correo())
+                .orElseThrow(() -> new AppException("Usuario desconocido", HttpStatus.NOT_FOUND));
+        return userMapper.toUserDto(user);
     }
 
     @Override

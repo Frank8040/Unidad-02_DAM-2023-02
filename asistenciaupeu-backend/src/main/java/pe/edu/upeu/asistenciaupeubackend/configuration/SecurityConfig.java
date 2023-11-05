@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, "asis/login",
+                        .requestMatchers(HttpMethod.POST, "asis/login", "asis/loginByCorreo",
                                 "asis/register")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET,"/v3/**","/doc/**","asis/messages").permitAll()
