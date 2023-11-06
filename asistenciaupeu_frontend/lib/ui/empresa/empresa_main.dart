@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, library_private_types_in_public_api
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
-import 'package:asistenciaupeu_frontend/bloc/empresa/empresa_bloc.dart';
 import 'package:asistenciaupeu_frontend/repository/EmpresaRepository.dart';
 import 'package:asistenciaupeu_frontend/comp/TabItem.dart';
 import 'package:asistenciaupeu_frontend/ui/empresa/MyAppState.dart';
@@ -11,6 +10,7 @@ import 'package:asistenciaupeu_frontend/modelo/EmpresaModelo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:asistenciaupeu_frontend/theme/AppTheme.dart';
+import '../../bloc/empresa/empresa_bloc.dart';
 import '../help_screen.dart';
 
 class MainEmpresa extends StatelessWidget {
@@ -172,37 +172,6 @@ class _EmpresaUIState extends State<EmpresaUI> {
                                 style: Theme.of(context).textTheme.bodyMedium)
                           ],
                         ),
-                        subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: AppTheme.themeData.colorScheme
-                                        .primaryContainer),
-                                child: Text(
-                                  empresax.direccion,
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 16),
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: AppTheme.themeData.colorScheme
-                                        .primaryContainer),
-                                child: Text(
-                                  //empresa.asistenciaxs.isEmpty? empresa.evaluar:empresa.asistenciaxs.first.horaReg,
-                                  empresax.ubigeo,
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 16),
-                                ),
-                              ),
-                            ]),
-                        leading: const CircleAvatar(
-                          backgroundImage:
-                              AssetImage("assets/imagen/man-icon.png"),
-                        ),
                         trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             //crossAxisAlignment: CrossAxisAlignment.center,
@@ -307,8 +276,7 @@ class _EmpresaUIState extends State<EmpresaUI> {
                                             Icons.send_and_archive_sharp),
                                         padding: EdgeInsets.zero,
                                         constraints: const BoxConstraints(),
-                                        onPressed: () async {
-                                        },
+                                        onPressed: () async {},
                                       );
                                     },
                                   ))

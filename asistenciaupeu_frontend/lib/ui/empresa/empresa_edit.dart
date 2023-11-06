@@ -24,7 +24,7 @@ class EmpresaFormEditState extends State<CompanyFormEdit> {
   late String direccion = "";
   late String ruc = "";
   late String ubigeo = "";
-  late int userId;
+  late String userId = "";
 
   @override
   void initState() {
@@ -87,8 +87,7 @@ class EmpresaFormEditState extends State<CompanyFormEdit> {
                         capturaDirecccion, modelA.direccion, "Dirección:"),
                     _buildDatoCadena(capturaRuc, modelA.ruc, "RUC:"),
                     _buildDatoCadena(capturaUbigeo, modelA.ubigeo, "Ubigeo:"),
-                    _buildDatoEntero(
-                        capturaUsuario, modelA.userId as String, "Usuario:"),
+                    _buildDatoCadena(capturaUsuario, modelA.userId, "Usuario:"),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(

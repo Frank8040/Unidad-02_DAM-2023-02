@@ -115,7 +115,7 @@ class _ActividadUIState extends State<ActividadUI> {
                   print("Si funciona 2");
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ActividadForm()),
+                    MaterialPageRoute(builder: (context) => const ActividadForm()),
                   ).then(onGoBack);
                 },
                 child: const Icon(Icons.add_box_sharp),

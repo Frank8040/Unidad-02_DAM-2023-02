@@ -19,7 +19,7 @@ class _EmpresaFormState extends State<EmpresaForm> {
   late String direccion = "";
   late String ruc = "";
   late String ubigeo = "";
-  late int userId;
+  late String userId = "";
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _EmpresaFormState extends State<EmpresaForm> {
     ubigeo = valor;
   }
 
-  void capturaUsuario(int valor) {
+  void capturaUsuario(valor) {
     userId = valor;
   }
 
@@ -79,7 +79,7 @@ class _EmpresaFormState extends State<EmpresaForm> {
                     _buildDatoCadena(capturaDirecccion, "Dirección:"),
                     _buildDatoCadena(capturaRuc, "RUC:"),
                     _buildDatoCadena(capturaUbigeo, "Ubigeo:"),
-                    _buildDatoEntero(capturaUsuario, "Usuario:"),
+                    _buildDatoCadena(capturaUsuario, "Usuario:"),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(
@@ -106,6 +106,10 @@ class _EmpresaFormState extends State<EmpresaForm> {
                                 mp.ruc = ruc;
                                 mp.ubigeo = ubigeo;
                                 mp.userId = userId;
+                                print("NA:$nombre"
+                                    "F:$direccion HI:$nombreCorto "
+                                    "La: $ruc, Lo:$ubigeo "
+                                    "EV:$userId");
                                 BlocProvider.of<EmpresaBloc>(context)
                                     .add(CreateEmpresaEvent(mp));
                                 Navigator.pop(context, () {
