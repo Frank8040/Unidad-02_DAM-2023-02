@@ -36,6 +36,8 @@ class UsuarioModelo {
     required this.offlinex,
   });
 
+  UsuarioModelo.unlaunched();
+
   UsuarioModelo.loginByEmail(this.correo)
       : password = "",
         nombres = "",
@@ -68,6 +70,20 @@ class UsuarioModelo {
   late final String offlinex;
 
   factory UsuarioModelo.fromJson(Map<String, dynamic> json) {
+    return UsuarioModelo(
+      nombres: json['nombres'],
+      apellidos: json['apellidos'],
+      correo: json['correo'],
+      password: json['password'],
+      token: json['token'],
+      dni: json['dni'],
+      perfilPrin: json['perfilPrin'],
+      estado: json['estado'],
+      offlinex: json['offlinex'],
+    );
+  }
+
+  factory UsuarioModelo.fromJsonModelo(Map<String, dynamic> json) {
     return UsuarioModelo(
       nombres: json['nombres'],
       apellidos: json['apellidos'],

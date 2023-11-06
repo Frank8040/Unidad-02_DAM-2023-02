@@ -6,6 +6,7 @@ import 'package:asistenciaupeu_frontend/drawer/home_drawer.dart';
 import 'package:asistenciaupeu_frontend/ui/actividad/actividad_main.dart';
 import 'package:asistenciaupeu_frontend/ui/actividadb/actividad_main.dart';
 import 'package:asistenciaupeu_frontend/ui/asistenciax/asistenciax_page.dart';
+import 'package:asistenciaupeu_frontend/ui/empresa/empresa_main.dart';
 //import 'package:asistenciaupeu_frontend/ui/actividadb/actividad_main.dart';
 //import 'package:asistenciaupeu_frontend/ui/actividadfire/actividad_main.dart';
 import 'package:asistenciaupeu_frontend/ui/help_screen.dart';
@@ -69,7 +70,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.Invite) {
         setState(() {
-          //  screenView = MainActividadBFire();
+          screenView = const MainEmpresa();
         });
       } else if (drawerIndex == DrawerIndex.About) {
         setState(() {

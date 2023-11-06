@@ -7,13 +7,13 @@ class GenericModelo {
   });
   late final bool deleted;
 
-  GenericModelo.fromJson(Map<String, dynamic> json){
-    deleted = json['deleted'];
+  GenericModelo.fromJson(Map<String, dynamic> json) {
+    deleted = json['Eliminado'];
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['deleted'] = deleted;
-    return _data;
+    final data = <String, dynamic>{};
+    data['Eliminado'] = deleted;
+    return data;
   }
 }

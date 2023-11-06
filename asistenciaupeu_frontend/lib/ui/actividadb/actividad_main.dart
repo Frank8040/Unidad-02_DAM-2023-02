@@ -1,12 +1,8 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, library_private_types_in_public_api
-
-import 'dart:io';
-
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:asistenciaupeu_frontend/bloc/actividad/actividad_bloc.dart';
 import 'package:asistenciaupeu_frontend/repository/ActividadRepository.dart';
 import 'package:asistenciaupeu_frontend/ui/actividadb/MyAppState.dart';
-import 'package:asistenciaupeu_frontend/apis/actividad_api.dart';
 //import 'package:asistenciaupeu_frontend/apis/asistencia_api.dart';
 import 'package:asistenciaupeu_frontend/comp/TabItem.dart';
 //import 'package:asistenciaupeu_frontend/modelo/AsistenciapaxModelo.dart';
@@ -15,31 +11,15 @@ import 'package:asistenciaupeu_frontend/ui/actividadb/actividad_form.dart';
 import 'package:flutter/material.dart';
 import 'package:asistenciaupeu_frontend/modelo/ActividadModelo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:asistenciaupeu_frontend/theme/AppTheme.dart';
-import 'package:asistenciaupeu_frontend/util/TokenUtil.dart';
 import '../help_screen.dart';
-import 'package:excel/excel.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
 
 class MainActividadB extends StatelessWidget {
   const MainActividadB({super.key});
 
   @override
   Widget build(BuildContext context) {
-    /*return Provider<ActividadApi>(
-      create: (_) => ActividadApi.create(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        themeMode: AppTheme.useLightMode ? ThemeMode.light : ThemeMode.dark,
-        theme: AppTheme.themeData,
-        home: ActividadUI(),
-      ),
-    );*/
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ActividadBloc(ActividadRepository())),
@@ -155,27 +135,6 @@ class _ActividadUIState extends State<ActividadUI> {
             }
           },
         ),
-        /*body: FutureBuilder<List<ActividadModelo>>(
-          future: Provider.of<ActividadApi>(context, listen: true)
-              .getActividad(TokenUtil.TOKEN).then((value) => value),
-          builder: (BuildContext context,
-              AsyncSnapshot<List<ActividadModelo>> snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                    "Something wrong with message: ${snapshot.error.toString()}"),
-              );
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              List<ActividadModelo> persona = snapshot.data!!;
-              print(persona.length);
-              return _buildListView(context, persona);
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),*/
         bottomNavigationBar: _buildBottomTab(),
         floatingActionButton: AnimatedFloatingActionButton(
           key: key,
@@ -352,33 +311,6 @@ class _ActividadUIState extends State<ActividadUI> {
                                         padding: EdgeInsets.zero,
                                         constraints: const BoxConstraints(),
                                         onPressed: () async {
-                                          /*RespAsistenciapaModelo api=await Provider.of<AsistenciapaApi>(context, listen: false).getAsistenciapa(TokenUtil.TOKEN);
-                                          exportAsistenciaToExcel(api.data);
-                                          await Future.delayed(const Duration(seconds: 1));
-                                          print("OJO:${imagePaths.isEmpty}");
-                                          text="Exportando Asistencias";
-                                          if(!text.isEmpty && !imagePaths.isEmpty){
-                                            _onShare(context);
-                                            Fluttertoast.showToast(
-                                                msg: "Exporto correctamente",
-                                                toastLength: Toast.LENGTH_LONG,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.blue,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0
-                                            );
-                                          }else{
-                                            Fluttertoast.showToast(
-                                                msg: "Error Al compartir",
-                                                toastLength: Toast.LENGTH_LONG,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.blue,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0
-                                            );
-                                          }*/
                                         },
                                       );
                                     },
