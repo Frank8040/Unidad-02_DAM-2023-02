@@ -1,9 +1,35 @@
 // ignore_for_file: file_names
 
+import 'package:floor/floor.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
+@Entity(tableName: "actividad")
 class ActividadModelo {
+  @primaryKey
+  late int id = 0;
+  @ColumnInfo(name: "nombre_actividad")
+  late final String nombreActividad;
+  late final String fecha;
+  late final String horai;
+  @ColumnInfo(name: "min_toler")
+  late final String minToler;
+  late final String latitud;
+  late final String longitud;
+  late final String estado;
+  late final String evaluar;
+  @ColumnInfo(name: "user_create")
+  late final String userCreate;
+  late final String mater;
+  @ColumnInfo(name: "valid_insc")
+  late final String validInsc;
+  @ColumnInfo(name: "asis_subact")
+  late final String asisSubact;
+  late final String entsal;
+  late final String offlinex;
+  @ignore
+  late List<AsistenciaxRModelo> asistenciaxs = [];
+
   ActividadModelo({
     required this.id,
     required this.nombreActividad,
@@ -19,28 +45,28 @@ class ActividadModelo {
     required this.validInsc,
     required this.asisSubact,
     required this.entsal,
-    required this.offlinex,
-    required this.asistenciaxs,
+    required this.offlinex
   });
 
-  ActividadModelo.unlaunched();
+  ActividadModelo.fromJsonLocal(Map<String, dynamic> json) {
+    id = json['id'];
+    nombreActividad = json['nombre_actividad'];
+    fecha = json['fecha'];
+    horai = json['horai'];
+    minToler = json['min_toler'];
+    latitud = json['latitud'];
+    longitud = json['longitud'];
+    estado = json['estado'];
+    evaluar = json['evaluar'];
+    userCreate = json['user_create'];
+    mater = json['mater'];
+    validInsc = json['valid_insc'];
+    asisSubact = json['asis_subact'];
+    entsal = json['entsal'];
+    offlinex = json['offlinex'];
+  }
 
-  late int id = 0;
-  late final String nombreActividad;
-  late final String fecha;
-  late final String horai;
-  late final String minToler;
-  late final String latitud;
-  late final String longitud;
-  late final String estado;
-  late final String evaluar;
-  late final String userCreate;
-  late final String mater;
-  late final String validInsc;
-  late final String asisSubact;
-  late final String entsal;
-  late final String offlinex;
-  late List<AsistenciaxRModelo> asistenciaxs;
+  ActividadModelo.unlaunched();
 
   ActividadModelo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -83,8 +109,7 @@ class ActividadModelo {
         validInsc: json['validInsc'],
         asisSubact: json['asisSubact'],
         entsal: json['entsal'],
-        offlinex: json['offlinex'],
-        asistenciaxs: []);
+        offlinex: json['offlinex']);
   }
 
   Map<String, dynamic> toJson() {

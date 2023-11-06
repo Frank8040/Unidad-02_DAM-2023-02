@@ -23,10 +23,12 @@ class EmpresaBloc extends Bloc<EmpresaEvent, EmpresaState> {
         }
       } else if (event is DeleteEmpresaEvent) {
         try {
-          await empresaRepository.deleteEmpresa(event.empresa.id);
+          await empresaRepository.deleteEmpresa(event.empresa!.id);
+          Future.delayed(Duration(seconds: 1));
           emit(EmpresaLoadingState());
-          List<EmpresaModelo> empresaList =
-              await empresaRepository.getEmpresa();
+          print("llegaccc");
+          List<EmpresaModelo> empresaList = await empresaRepository.getEmpresa();
+          print("no pasasdd");
           emit(EmpresaLoadedState(empresaList));
         } catch (e) {
           emit(EmpresaError(e as Error));

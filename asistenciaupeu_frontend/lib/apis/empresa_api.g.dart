@@ -13,7 +13,7 @@ class _EmpresaApi implements EmpresaApi {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://172.168.1.111:9090';
+    baseUrl ??= 'http://172.18.208.1:9090';
   }
 
   final Dio _dio;
@@ -26,7 +26,7 @@ class _EmpresaApi implements EmpresaApi {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<EmpresaModelo>>(Options(
       method: 'GET',

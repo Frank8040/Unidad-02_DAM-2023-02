@@ -14,9 +14,11 @@ class EmpresaRepository {
   }
 
   Future<List<EmpresaModelo>> getEmpresa() async {
-    var dato =
+    print("llega:"+TokenUtil.TOKEN);
+    var resultant =
         await empresaApi!.getEmpresa(TokenUtil.TOKEN).then((value) => value);
-    return dato;
+
+    return resultant;
   }
 
   Future<GenericModelo> deleteEmpresa(int id) async {

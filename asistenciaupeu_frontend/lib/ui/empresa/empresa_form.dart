@@ -19,7 +19,7 @@ class _EmpresaFormState extends State<EmpresaForm> {
   late String direccion = "";
   late String ruc = "";
   late String ubigeo = "";
-  late String userId = "";
+  late UsuarioXModelo userId;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _EmpresaFormState extends State<EmpresaForm> {
     ubigeo = valor;
   }
 
-  void capturaUsuario(valor) {
+  void capturaUsuario(UsuarioXModelo valor) {
     userId = valor;
   }
 
@@ -79,7 +79,7 @@ class _EmpresaFormState extends State<EmpresaForm> {
                     _buildDatoCadena(capturaDirecccion, "Dirección:"),
                     _buildDatoCadena(capturaRuc, "RUC:"),
                     _buildDatoCadena(capturaUbigeo, "Ubigeo:"),
-                    _buildDatoCadena(capturaUsuario, "Usuario:"),
+                    _buildDatoEntero(capturaUsuario, "Usuario:"),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(
@@ -146,7 +146,7 @@ class _EmpresaFormState extends State<EmpresaForm> {
         return null;
       },
       onSaved: (String? value) {
-        obtValor(int.parse(value!));
+        obtValor([value!]);
       },
     );
   }

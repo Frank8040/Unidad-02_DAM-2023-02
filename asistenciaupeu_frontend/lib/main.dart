@@ -10,7 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   if (shouldUseFirestoreEmulator) {
-    FirebaseFirestore.instance.useFirestoreEmulator('http://172.168.1.111', 9090);
+    FirebaseFirestore.instance.useFirestoreEmulator('http://172.18.208.1', 9090);
   }
   runApp(const MyApp());
 }

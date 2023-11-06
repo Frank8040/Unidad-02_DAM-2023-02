@@ -87,7 +87,7 @@ class EmpresaFormEditState extends State<CompanyFormEdit> {
                         capturaDirecccion, modelA.direccion, "Dirección:"),
                     _buildDatoCadena(capturaRuc, modelA.ruc, "RUC:"),
                     _buildDatoCadena(capturaUbigeo, modelA.ubigeo, "Ubigeo:"),
-                    _buildDatoCadena(capturaUsuario, modelA.userId, "Usuario:"),
+                    //_buildDatoCadena(capturaUsuario, modelA.userId as String, "Usuario:"),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(
@@ -113,7 +113,7 @@ class EmpresaFormEditState extends State<CompanyFormEdit> {
                                 mp.direccion = direccion;
                                 mp.ruc = ruc;
                                 mp.ubigeo = ubigeo;
-                                mp.userId = userId;
+                                //mp.userId = userId as UserId;
                                 mp.id = modelA.id;
 
                                 /*var api = await Provider.of<EmpresaApi>(
